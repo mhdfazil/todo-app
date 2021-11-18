@@ -29,3 +29,8 @@ type SingleApiData = {
 type ApiError = {
   message: string;
 };
+
+type TodoCreate = {
+  title: string;
+  endDate: string;
+}

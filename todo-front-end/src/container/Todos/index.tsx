@@ -17,8 +17,8 @@ const Todos = () => {
     }
 
     const handleComplete = (todo: Todo) => {
-        todo.activeStatus = false;
-        dispatch(updateTodo(todo))
+        const updatedTodo = {...todo, activeStatus: false} as Todo;
+        dispatch(updateTodo(updatedTodo));
     }
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const Todos = () => {
     }, []);
 
     return (
-        <Box sx={{ mt: 12, mx: 2 }}>
+        <Box sx={{ mt: 6, mx: 2 }}>
             {todos && todos.map(todo => 
                 <Todo 
                     key={todo._id} 

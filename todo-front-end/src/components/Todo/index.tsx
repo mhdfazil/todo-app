@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const Todo = ({ title, activeStatus, endDate, onDelete }: TodoProps) => {
+const Todo = ({ title, activeStatus, endDate, onDelete, onUpdate }: TodoProps) => {
     return (
         <Box sx={{ width: 400, m: 2, maxWidth: '90%' }} >
             <Card variant='outlined'>
@@ -21,7 +21,7 @@ const Todo = ({ title, activeStatus, endDate, onDelete }: TodoProps) => {
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'space-between' }}>
-                    {activeStatus && <Button size="small">Complete</Button>}
+                    <Button size="small" onClick={onUpdate} disabled={!activeStatus}>{activeStatus ? 'Complete' : 'Completed'}</Button>
                     <IconButton aria-label="delete" onClick={onDelete}>
                         <DeleteIcon color='error' />
                     </IconButton>

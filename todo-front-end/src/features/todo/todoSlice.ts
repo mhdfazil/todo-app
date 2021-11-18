@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { updateObject } from '../../shared/utility';
-import { deleteTodo, fetchTodos, updateTodo } from './todoAction';
+import { createTodo, deleteTodo, fetchTodos, updateTodo } from './todoAction';
 
 interface TodosState {
     todos: Todo[],
@@ -64,6 +64,19 @@ export const todoSlice = createSlice({
             state.error = null;
         });
         builder.addCase(updateTodo.rejected, (state, { payload }) => {
+            state.error = 'Oops! Something went wrong.';
+            state.loading = false;
+        });
+        builder.addCase(createTodo.pending, state => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(createTodo.fulfilled, (state, { payload }) => {
+            state.todos.push(payload);
+            state.loading = false;
+            state.error = null;
+        });
+        builder.addCase(createTodo.rejected, (state, { payload }) => {
             state.error = 'Oops! Something went wrong.';
             state.loading = false;
         });

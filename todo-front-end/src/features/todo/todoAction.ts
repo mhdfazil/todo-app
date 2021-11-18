@@ -25,7 +25,17 @@ export const deleteTodo = createAsyncThunk<TodoId, TodoId>(
 export const updateTodo = createAsyncThunk<Todo, Todo>(
   "todos/update", 
   async (todo: Todo) => {
-    const response: AxiosResponse = await axios.put(`todos/${todo._id}`);
+    const response: AxiosResponse = await axios.put(`todos/${todo._id}`, todo);
+    const apiData: SingleApiData = response.data;
+    const updatedTodo: Todo = apiData.data;
+    return updatedTodo;
+  }
+);
+
+export const createTodo = createAsyncThunk<Todo, TodoCreate>(
+  "todos/create", 
+  async (todo: TodoCreate) => {
+    const response: AxiosResponse = await axios.post(`todos`, todo);
     const apiData: SingleApiData = response.data;
     const updatedTodo: Todo = apiData.data;
     return updatedTodo;
