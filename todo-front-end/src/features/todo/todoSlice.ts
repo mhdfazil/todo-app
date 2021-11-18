@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { updateObject } from '../../shared/utility';
-import { deleteTodo, fetchTodos } from './todoAction';
+import { deleteTodo, fetchTodos, updateTodo } from './todoAction';
 
 interface TodosState {
     todos: Todo[],
@@ -45,7 +45,7 @@ export const todoSlice = createSlice({
             state.error = null;
         });
         builder.addCase(deleteTodo.fulfilled, (state, { payload }) => {
-            state.todos = state.todos.filter(todo => todo._id === payload);
+            state.todos = state.todos.filter(todo => todo._id !== payload);
             state.loading = false;
             state.error = null;
         });
@@ -53,7 +53,20 @@ export const todoSlice = createSlice({
             state.error = 'Oops! Something went wrong.';
             state.loading = false;
         });
-        
+        builder.addCase(updateTodo.pending, state => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(updateTodo.fulfilled, (state, { payload }) => {
+            const index = state.todos.findIndex(todo => todo._id === payload._id);
+            state.todos[index] = payload;
+            state.loading = false;
+            state.error = null;
+        });
+        builder.addCase(updateTodo.rejected, (state, { payload }) => {
+            state.error = 'Oops! Something went wrong.';
+            state.loading = false;
+        });
     }
 })
 
@@ -64,3 +77,5 @@ export default todoSlice.reducer;
 export const selectTodos = (state: RootState) => state.todos;
 
 export const selectLoading = (state: RootState) => state.loading;
+
+export const selectError = (state: RootState) => state.error;

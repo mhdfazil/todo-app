@@ -33,6 +33,7 @@ const Todo = ({ title, activeStatus, endDate, onDelete }: TodoProps) => {
 
 interface TodoProps extends Todo {
     onDelete: () => void;
+    onUpdate: () => void;
 }
 
 export default Todo;

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Todo from '../../components/Todo';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { deleteTodo, fetchTodos } from '../../features/todo/todoAction';
+import { deleteTodo, fetchTodos, updateTodo } from '../../features/todo/todoAction';
 import { selectTodos } from '../../features/todo/todoSlice';
 import moment from 'moment';
 
@@ -14,6 +14,11 @@ const Todos = () => {
 
     const handleDelete = (id: TodoId) => {
         dispatch(deleteTodo(id))
+    }
+
+    const handleComplete = (todo: Todo) => {
+        todo.activeStatus = false;
+        dispatch(updateTodo(todo))
     }
 
     useEffect(() => {
@@ -29,7 +34,8 @@ const Todos = () => {
                     title={todo.title} 
                     endDate={moment(todo.endDate).format('DD/MM/YYYY')} 
                     activeStatus={todo.activeStatus}
-                    onDelete={() => handleDelete(todo._id)} />
+                    onDelete={() => handleDelete(todo._id)}
+                    onUpdate={() => handleComplete(todo)} />
             )}
         </Box>
     );
